@@ -1,0 +1,9 @@
+# ml/requirements.txt
+fastapi
+uvicorn
+torch
+segmentation-models-pytorch
+opencv-python
+numpy
+Pillow
+albumentations
