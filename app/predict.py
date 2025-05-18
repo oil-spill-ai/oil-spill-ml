@@ -1,19 +1,18 @@
-# ml/app/predict.py
-# ЗАГЛУШКА
+from app.model import model
+from pathlib import Path
 
-import os
-import cv2
-import numpy as np
+def predict_image(input_path: Path, output_dir: Path, conf: float = 0.33) -> Path:
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-def predict_image(image_path: str) -> str:
-    image = cv2.imread(image_path)
+    model(
+        source=input_path,
+        task="segment",
+        save=True,
+        conf=conf,
+        imgsz=640,
+        exist_ok=True,
+        project=output_dir.parent,
+        name=output_dir.name,
+    )
 
-    # Заглушка маски
-    mask = np.zeros(image.shape[:2], dtype=np.uint8)
-    h, w = mask.shape
-    cv2.circle(mask, (w//2, h//2), min(h, w)//4, 255, -1)
-
-    result_path = image_path.replace(".jpg", "_mask.png")
-    cv2.imwrite(result_path, mask)
-
-    return result_path
+    return output_dir / input_path.name
